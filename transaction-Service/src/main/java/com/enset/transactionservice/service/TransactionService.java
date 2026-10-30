@@ -2,11 +2,13 @@ package com.enset.transactionservice.service;
 
 import com.enset.transactionservice.client.Account;
 import com.enset.transactionservice.dao.TransactionRepo;
+import com.enset.transactionservice.dto.TransactionRequestDTO;
 import com.enset.transactionservice.dto.TransactionResponseDTO;
 import com.enset.transactionservice.entity.Transaction;
 import com.enset.transactionservice.execption.TransactionNotFoundException;
 import com.enset.transactionservice.mapper.TransactionMapper;
 import com.enset.transactionservice.openFeign.AccountClient;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,26 +39,19 @@ public class TransactionService implements ITransctionService {
     }
 
     @Override
-    public void credit(String accountId, double amount, String description) {
-        Account account = accountClient.getById(accountId);
-        account.setBalance(account.getBalance() - amount);
-        Transaction transaction = Transaction.builder()
-                .account(account)
-                .amount(BigDecimal.valueOf(amount))
-                .country("")
-                .currency("")
-                .merchantCategory("")
-                .build();
+    @Transactional
+    public void credit(TransactionRequestDTO transactionRequestDTO) {
+        Account account = accountClient.getById(transactionRequestDTO.getAccountId());
+        account.setBalance(account.getBalance() - transactionRequestDTO.getAmount().doubleValue());
 
     }
 
     @Override
-    public void transfer(String accountIdSource, String accountIdDestination, double amount) {
+    @Transactional
+    public void debit(TransactionRequestDTO requestDTO) {
+        Account account = accountClient.getById(requestDTO.getAccountId());
 
     }
 
-    @Override
-    public void debit(String accountId, double amount, String description) {
 
-    }
 }
