@@ -12,3 +12,7 @@ spring:
               uri: lb://transaction-service
               predicates:
                 - Path=/api/transaction-service
+            - id: assistant-service
+              uri: lb://assistant-service
+              predicates:
+                - Path=/api/assistant-service
