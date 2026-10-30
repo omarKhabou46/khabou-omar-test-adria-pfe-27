@@ -5,6 +5,7 @@ import com.enset.transactionservice.dao.TransactionRepo;
 import com.enset.transactionservice.dto.TransactionRequestDTO;
 import com.enset.transactionservice.dto.TransactionResponseDTO;
 import com.enset.transactionservice.entity.Transaction;
+import com.enset.transactionservice.execption.CurrenciesDoNotMatch;
 import com.enset.transactionservice.execption.SoldeInsuffisant;
 import com.enset.transactionservice.execption.TransactionNotFoundException;
 import com.enset.transactionservice.mapper.TransactionMapper;
@@ -42,7 +43,9 @@ public class TransactionService implements ITransctionService {
     @Override
     @Transactional
     public void credit(TransactionRequestDTO transactionRequestDTO) {
+
         Account account = accountClient.getAccountById(transactionRequestDTO.getAccountId());
+        if (!transactionRequestDTO.getCurrency().equals(account.getCurrency())) throw new CurrenciesDoNotMatch("currency not match");
         account.setBalance(account.getBalance() + transactionRequestDTO.getAmount().doubleValue());
         Transaction transaction = mapper.fromDto(transactionRequestDTO);
         transaction.setAccount(account);
@@ -54,6 +57,7 @@ public class TransactionService implements ITransctionService {
     @Transactional
     public void debit(TransactionRequestDTO requestDTO) {
         Account account = accountClient.getAccountById(requestDTO.getAccountId());
+        if (!requestDTO.getCurrency().equals(account.getCurrency())) throw new CurrenciesDoNotMatch("currency not match");
         if (account.getBalance() < requestDTO.getAmount().doubleValue()) {
             throw new SoldeInsuffisant("cant do this op");
         }
