@@ -1,13 +1,8 @@
 package com.enset.transactionservice.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.enset.transactionservice.client.Account;
+import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
@@ -15,6 +10,7 @@ import java.time.Instant;
 
 @Entity
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Builder
 public class Transaction {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -25,4 +21,6 @@ public class Transaction {
     private String country;
     @CreationTimestamp
     private Instant createdAt;
+    @Transient
+    private Account account;
 }

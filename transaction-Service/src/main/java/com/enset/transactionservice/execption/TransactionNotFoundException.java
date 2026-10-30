@@ -1,0 +1,7 @@
+package com.enset.transactionservice.execption;
+
+public class TransactionNotFoundException extends RuntimeException {
+    public TransactionNotFoundException(String message) {
+        super(message);
+    }
+}
