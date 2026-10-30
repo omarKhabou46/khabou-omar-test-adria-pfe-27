@@ -22,7 +22,7 @@ public class TransactionController {
 
 
     @GetMapping("{accountId}")
-    public ResponseEntity<List<TransactionResponseDTO>> getOperationsByAccountId(@PathVariable String accountId) {
+    public ResponseEntity<List<TransactionResponseDTO>> getTransactionsByAccountId(@PathVariable String accountId) {
         return new ResponseEntity<>(transctionService.getOperationsByAccountId(accountId), HttpStatus.OK);
     }
 
