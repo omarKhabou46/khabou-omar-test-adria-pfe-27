@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface IAccountService {
     void createAccount(AccountRequestDTO requestDTO);
-    Account getAccountById(String id);
+    AccountResponseDTO getAccountById(String id);
     List<AccountResponseDTO> getAllAccounts();
+    AccountResponseDTO updateAccount(Account account);
 }
