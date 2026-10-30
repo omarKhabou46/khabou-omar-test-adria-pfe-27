@@ -1,5 +1,6 @@
 package com.enset.transactionservice.mapper;
 
+import com.enset.transactionservice.dto.TransactionRequestDTO;
 import com.enset.transactionservice.dto.TransactionResponseDTO;
 import com.enset.transactionservice.entity.Transaction;
 import org.mapstruct.Mapper;
@@ -8,5 +9,6 @@ import org.mapstruct.Mapper;
 public interface TransactionMapper {
 
     TransactionResponseDTO toDto(Transaction transaction);
+    TransactionRequestDTO fromTransaction(Transaction transaction);
 
 }
